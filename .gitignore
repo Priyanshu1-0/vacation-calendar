@@ -1,0 +1,20 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Backend
+backend/.venv/
+backend/__pycache__/
+backend/.env
+backend/.pytest_cache/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+
+# Never commit API keys
+.env
+*.pem

@@ -20,6 +20,19 @@ app.add_middleware(
 app.include_router(calendar_router)
 
 
+@app.get("/")
+async def root() -> dict[str, str | list[str]]:
+    return {
+        "service": "Vacation Calendar API",
+        "docs": "/docs",
+        "health": "/health",
+        "examples": [
+            "/api/countries",
+            "/api/calendar?country_code=US&year=2026",
+        ],
+    }
+
+
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}

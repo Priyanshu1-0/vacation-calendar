@@ -3,6 +3,7 @@ import './App.css'
 import Legend from './components/Legend'
 import VacationCalendar from './components/VacationCalendar'
 import { useVacationCalendar } from './hooks/useVacationCalendar'
+import { MAX_CALENDAR_YEAR, MIN_CALENDAR_YEAR } from './utils/validateYear'
 
 function App() {
   const {
@@ -50,11 +51,23 @@ function App() {
             <span>Year</span>
             <input
               type="number"
-              min={1900}
-              max={2100}
+              min={MIN_CALENDAR_YEAR}
+              max={MAX_CALENDAR_YEAR}
+              step={1}
               value={year}
-              onChange={(event) => setYear(Number(event.target.value))}
+              onChange={(event) => {
+                const raw = event.target.value
+                if (raw === '') {
+                  setYear('')
+                  return
+                }
+                const parsed = Number(raw)
+                if (!Number.isNaN(parsed)) {
+                  setYear(parsed)
+                }
+              }}
               disabled={!countryCode}
+              aria-describedby={error ? 'calendar-error' : undefined}
             />
           </label>
         </div>
@@ -67,7 +80,11 @@ function App() {
         hover it to see every holiday name on that day.
       </p>
 
-      {error ? <p className="status status--error">{error}</p> : null}
+      {error ? (
+        <div id="calendar-error" className="alert alert--error" role="alert">
+          {error}
+        </div>
+      ) : null}
       {loadingCountries ? <p className="status">Loading countries…</p> : null}
       {!loadingCountries && !countryCode ? (
         <p className="status">Choose a country to load the calendar.</p>

@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { fetchCalendar, fetchCountries } from '../api/calendarApi'
 import { getInitialYear, STORAGE_COUNTRY_KEY } from '../utils/config'
+import { validateYear } from '../utils/validateYear'
+
+const YEAR_DEBOUNCE_MS = 450
 
 export function useVacationCalendar() {
   const [countries, setCountries] = useState([])
@@ -51,13 +54,21 @@ export function useVacationCalendar() {
   const loadCalendar = useCallback(async () => {
     if (!countryCode) {
       setCalendar(null)
+      setError('')
+      return
+    }
+
+    const yearCheck = validateYear(year)
+    if (!yearCheck.valid) {
+      setError(yearCheck.message)
+      setLoadingCalendar(false)
       return
     }
 
     setLoadingCalendar(true)
     setError('')
     try {
-      const data = await fetchCalendar(countryCode, year)
+      const data = await fetchCalendar(countryCode, yearCheck.value)
       setCalendar(data)
       setYear(data.year)
       localStorage.setItem(STORAGE_COUNTRY_KEY, countryCode)
@@ -70,8 +81,17 @@ export function useVacationCalendar() {
   }, [countryCode, year])
 
   useEffect(() => {
-    loadCalendar()
-  }, [loadCalendar])
+    if (!countryCode) {
+      setCalendar(null)
+      return undefined
+    }
+
+    const timeout = window.setTimeout(() => {
+      loadCalendar()
+    }, YEAR_DEBOUNCE_MS)
+
+    return () => window.clearTimeout(timeout)
+  }, [countryCode, year, loadCalendar])
 
   return {
     countries,

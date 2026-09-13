@@ -1,18 +1,18 @@
+import { formatApiError } from './formatApiError'
+
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
 
 async function request(path) {
   const response = await fetch(`${API_BASE}${path}`)
   if (!response.ok) {
-    let detail = response.statusText
+    let message = response.statusText
     try {
       const body = await response.json()
-      if (body.detail) {
-        detail = typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail)
-      }
+      message = formatApiError(body, message)
     } catch {
       /* ignore */
     }
-    throw new Error(detail)
+    throw new Error(message)
   }
   return response.json()
 }

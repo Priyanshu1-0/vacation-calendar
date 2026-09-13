@@ -124,8 +124,18 @@
   color: var(--text-muted);
 }
 
-.status--error {
-  color: #b42318;
+.alert {
+  margin: 0.75rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.alert--error {
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
 }
 
 .calendar-meta {

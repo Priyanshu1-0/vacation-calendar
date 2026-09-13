@@ -2,11 +2,6 @@
 
 Public-holiday calendar with ISO-week highlighting. Pick a country and year; weeks are shaded by how many **weekdays (Mon–Fri)** have a public holiday in that week.
 
-## Project Demo
-
-[Watch the project explanation video](demo/vacation_calendar.mp4)
-
-
 | | |
 |---|---|
 | **Live App** | https://vacation-calendar-two.vercel.app |

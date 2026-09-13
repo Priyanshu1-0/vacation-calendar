@@ -2,7 +2,7 @@
 
 Public-holiday calendar with ISO-week highlighting. Pick a country and year; weeks are shaded by how many **weekdays (Mon–Fri)** have a public holiday in that week.
 
-https://github.com/Priyanshu1-0/vacation-calendar/releases/download/untagged-4b5028607cfbd564f268/vacation_calendar.mp4
+
 
 | | |
 |---|---|

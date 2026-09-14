@@ -9,7 +9,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
-app.add_middleware(
+app.add_middleware(  #Registering cors middleware on the App
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -18,7 +18,6 @@ app.add_middleware(
 )
 
 app.include_router(calendar_router)
-
 
 @app.get("/")
 async def root() -> dict[str, str | list[str]]:

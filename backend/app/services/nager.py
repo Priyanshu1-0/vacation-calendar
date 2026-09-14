@@ -8,6 +8,7 @@ from fastapi import HTTPException
 from app.config import settings
 from app.schemas.models import Country, PublicHoliday
 
+#responsible for communicating with external Nager.Date API.
 
 class _CacheEntry:
     __slots__ = ("expires_at", "value")

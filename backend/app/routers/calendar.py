@@ -6,6 +6,8 @@ from app.config import settings
 from app.schemas.models import CalendarResponse, Country, PublicHoliday
 from app.services import holidays, weeks
 
+#Defining backend endpoints that the frontend can use
+
 YearParam = Annotated[
     int,
     Query(

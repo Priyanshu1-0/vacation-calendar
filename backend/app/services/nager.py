@@ -9,6 +9,7 @@ from app.config import settings
 from app.schemas.models import Country, PublicHoliday
 
 #responsible for communicating with external Nager.Date API.
+#provider adapter between backend and the external Nager.Date API.
 
 class _CacheEntry:
     __slots__ = ("expires_at", "value")
@@ -30,7 +31,8 @@ def _cache_get(key: str) -> Any | None:
         return None
     return entry.value
 
-
+#First Spain 2026 request → call Nager
+#Next Spain 2026 request → use cache
 def _cache_set(key: str, value: Any) -> None:
     _cache[key] = _CacheEntry(value, settings.cache_ttl_seconds)
 

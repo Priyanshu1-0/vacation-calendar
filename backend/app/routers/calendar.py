@@ -25,7 +25,7 @@ router = APIRouter(prefix="/api", tags=["vacation-calendar"])
 async def list_countries() -> list[Country]:
     return await holidays.fetch_countries()
 
-
+#fetches the holiday list
 @router.get("/holidays", response_model=list[PublicHoliday])
 async def list_holidays(
     country_code: str,
@@ -33,7 +33,7 @@ async def list_holidays(
 ) -> list[PublicHoliday]:
     return await holidays.fetch_public_holidays(country_code, year)
 
-
+#handles the week shading
 @router.get("/calendar", response_model=CalendarResponse)
 async def vacation_calendar(
     country_code: str,

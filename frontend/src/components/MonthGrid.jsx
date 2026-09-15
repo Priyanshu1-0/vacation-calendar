@@ -18,7 +18,7 @@ function shadeForRow(row, shadeByDate) {
   for (const cell of row) {
     if (cell.kind !== 'day') continue
     const shade = shadeByDate.get(cell.date)
-    if (shade === 'dark') return 'dark'
+    if (shade === 'dark') return 'light'
   }
   for (const cell of row) {
     if (cell.kind !== 'day') continue
@@ -88,7 +88,7 @@ export default function MonthGrid({ year, monthIndex, shadeByDate, holidaysByDat
                         'month-grid__cell',
                         cell.isWeekend ? 'month-grid__cell--weekend' : '',
                         holidays.length > 0 ? 'month-grid__cell--holiday' : '',
-                        labels.length > 1 ? 'month-grid__cell--multi-holiday' : '',
+                        labels.length > 1 ? 'month-grid__cell--multi-holiday' : 'month-grid__cell--multi-holiday',
                       ]
                         .filter(Boolean)
                         .join(' ')}

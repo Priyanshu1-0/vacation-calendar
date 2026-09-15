@@ -11,6 +11,7 @@ class Country(BaseModel):
 
 class PublicHoliday(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
+    #to accept both snake case and came casing
 
     date: date
     local_name: str = Field(validation_alias="localName")
@@ -32,10 +33,10 @@ class CalendarWeek(BaseModel):
     week_start: date
     week_end: date
     weekday_public_holiday_count: int
-    shade: WeekShade
+    shade: WeekShadeß
     public_holidays: list[PublicHoliday]
 
-
+#complete response returned by GET api/calender
 class CalendarResponse(BaseModel):
     country_code: str
     year: int

@@ -63,6 +63,67 @@
   box-shadow: 0 0 0 3px rgba(134, 239, 172, 0.35);
 }
 
+.control--view {
+  min-width: 8.5rem;
+}
+
+.view-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.45rem;
+  padding: 0 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.view-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.view-toggle__track {
+  position: relative;
+  width: 2rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: #cbd5ce;
+  transition: background 0.2s ease;
+}
+
+.view-toggle__thumb {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 36, 25, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.view-toggle input:checked + .view-toggle__track {
+  background: var(--week-dark);
+}
+
+.view-toggle input:checked + .view-toggle__track .view-toggle__thumb {
+  transform: translateX(0.9rem);
+}
+
+.view-toggle:focus-within {
+  border-color: #86efac;
+  box-shadow: 0 0 0 3px rgba(134, 239, 172, 0.35);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;

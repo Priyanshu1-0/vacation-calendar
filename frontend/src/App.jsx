@@ -1,11 +1,14 @@
 import './App.css'
 
+import { useState } from 'react'
+
 import Legend from './components/Legend'
 import VacationCalendar from './components/VacationCalendar'
 import { useVacationCalendar } from './hooks/useVacationCalendar'
 import { MAX_CALENDAR_YEAR, MIN_CALENDAR_YEAR } from './utils/validateYear'
 
 function App() {
+  const [quarterlyView, setQuarterlyView] = useState(false)
   const {
     countries,
     countryCode,
@@ -16,7 +19,8 @@ function App() {
     loadingCountries,
     loadingCalendar,
     error,
-  } = useVacationCalendar()
+    nextYearCalendar,
+  } = useVacationCalendar({ includeNextYear: quarterlyView })
 
   const selectedCountry = countries.find((c) => c.country_code === countryCode)
 
@@ -70,6 +74,21 @@ function App() {
               aria-describedby={error ? 'calendar-error' : undefined}
             />
           </label>
+
+          <label className="control control--view">
+            <span>View</span>
+            <span className="view-toggle">
+              <input
+                type="checkbox"
+                checked={quarterlyView}
+                onChange={(event) => setQuarterlyView(event.target.checked)}
+              />
+              <span className="view-toggle__track" aria-hidden>
+                <span className="view-toggle__thumb" />
+              </span>
+              <span>Quarterly</span>
+            </span>
+          </label>
         </div>
       </header>
 
@@ -99,7 +118,13 @@ function App() {
         </p>
       ) : null}
 
-      {calendar && !loadingCalendar ? <VacationCalendar calendar={calendar} /> : null}
+      {calendar && !loadingCalendar ? (
+        <VacationCalendar
+          calendar={calendar}
+          nextYearCalendar={nextYearCalendar}
+          quarterly={quarterlyView}
+        />
+      ) : null}
     </div>
   )
 }

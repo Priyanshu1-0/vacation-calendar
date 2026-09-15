@@ -6,13 +6,14 @@ import { validateYear } from '../utils/validateYear'
 
 const YEAR_DEBOUNCE_MS = 450
 
-export function useVacationCalendar() {
+export function useVacationCalendar({ includeNextYear = false } = {}) {
   const [countries, setCountries] = useState([])
   const [countryCode, setCountryCode] = useState(
     () => localStorage.getItem(STORAGE_COUNTRY_KEY) ?? '',
   )
   const [year, setYear] = useState(getInitialYear)
   const [calendar, setCalendar] = useState(null)
+  const [nextYearCalendar, setNextYearCalendar] = useState(null)
   const [loadingCountries, setLoadingCountries] = useState(true)
   const [loadingCalendar, setLoadingCalendar] = useState(false)
   const [error, setError] = useState('')
@@ -54,6 +55,7 @@ export function useVacationCalendar() {
   const loadCalendar = useCallback(async () => {
     if (!countryCode) {
       setCalendar(null)
+      setNextYearCalendar(null)
       setError('')
       return
     }
@@ -61,6 +63,7 @@ export function useVacationCalendar() {
     const yearCheck = validateYear(year)
     if (!yearCheck.valid) {
       setError(yearCheck.message)
+      setNextYearCalendar(null)
       setLoadingCalendar(false)
       return
     }
@@ -68,21 +71,31 @@ export function useVacationCalendar() {
     setLoadingCalendar(true)
     setError('')
     try {
-      const data = await fetchCalendar(countryCode, yearCheck.value)
+      const shouldLoadNextYear =
+        includeNextYear && new Date().getMonth() >= 10 && yearCheck.value < 2100
+      const [data, followingYear] = await Promise.all([
+        fetchCalendar(countryCode, yearCheck.value),
+        shouldLoadNextYear
+          ? fetchCalendar(countryCode, yearCheck.value + 1)
+          : Promise.resolve(null),
+      ])
       setCalendar(data)
+      setNextYearCalendar(followingYear)
       setYear(data.year)
       localStorage.setItem(STORAGE_COUNTRY_KEY, countryCode)
     } catch (err) {
       setCalendar(null)
+      setNextYearCalendar(null)
       setError(err.message || 'Failed to load calendar')
     } finally {
       setLoadingCalendar(false)
     }
-  }, [countryCode, year])
+  }, [countryCode, includeNextYear, year])
 
   useEffect(() => {
     if (!countryCode) {
       setCalendar(null)
+      setNextYearCalendar(null)
       return undefined
     }
 
@@ -100,6 +113,7 @@ export function useVacationCalendar() {
     year,
     setYear,
     calendar,
+    nextYearCalendar,
     loadingCountries,
     loadingCalendar,
     error,

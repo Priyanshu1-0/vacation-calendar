@@ -239,7 +239,9 @@
   z-index: 1;
 }
 
-.month-grid__cell--multi-holiday:has(.month-grid__holiday-chip--open) {
+.month-grid__cell--holiday:hover,
+.month-grid__cell--holiday:focus-within,
+.month-grid__cell--holiday:has(.month-grid__holiday-chip--open) {
   z-index: 30;
 }
 
@@ -296,12 +298,12 @@
   width: 100%;
 }
 
-.month-grid__holiday-chip--multi {
+.month-grid__holiday-chip--interactive {
   cursor: pointer;
 }
 
-.month-grid__holiday-chip--multi:hover,
-.month-grid__holiday-chip--multi:focus-visible {
+.month-grid__holiday-chip--interactive:hover,
+.month-grid__holiday-chip--interactive:focus-visible {
   box-shadow: 0 0 0 2px rgba(21, 128, 61, 0.35);
   outline: none;
 }
@@ -374,11 +376,12 @@
 }
 
 @media (hover: hover) {
-  .month-grid__holiday-chip--multi:hover .month-grid__holiday-popup {
+  .month-grid__holiday-chip--interactive:hover .month-grid__holiday-popup {
     display: block;
   }
 }
 
+.month-grid__holiday-chip--interactive:focus-visible .month-grid__holiday-popup,
 .month-grid__holiday-chip--open .month-grid__holiday-popup {
   display: block;
   pointer-events: auto;

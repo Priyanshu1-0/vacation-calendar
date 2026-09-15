@@ -7,9 +7,7 @@ export default function HolidayChip({ labels }) {
   const primary = labels[0] ?? ''
 
   function togglePopup() {
-    if (hasMultiple) {
-      setOpen((value) => !value)
-    }
+    setOpen((value) => !value)
   }
 
   return (
@@ -17,14 +15,14 @@ export default function HolidayChip({ labels }) {
       type="button"
       className={[
         'month-grid__holiday-chip',
-        hasMultiple ? 'month-grid__holiday-chip--multi' : '',
+        'month-grid__holiday-chip--interactive',
         open ? 'month-grid__holiday-chip--open' : '',
       ]
         .filter(Boolean)
         .join(' ')}
       onClick={togglePopup}
-      aria-expanded={hasMultiple ? open : undefined}
-      aria-controls={hasMultiple ? popupId : undefined}
+      aria-expanded={open}
+      aria-controls={popupId}
       aria-label={labels.join(', ')}
     >
       <span className="month-grid__holiday-text">{primary}</span>
@@ -33,16 +31,16 @@ export default function HolidayChip({ labels }) {
           +{labels.length - 1}
         </span>
       ) : null}
-      {hasMultiple ? (
-        <span id={popupId} className="month-grid__holiday-popup" role="tooltip">
-          <span className="month-grid__holiday-popup-title">Holidays on this date</span>
-          <ul className="month-grid__holiday-popup-list">
-            {labels.map((label, index) => (
-              <li key={`${label}-${index}`}>{label}</li>
-            ))}
-          </ul>
+      <span id={popupId} className="month-grid__holiday-popup" role="tooltip">
+        <span className="month-grid__holiday-popup-title">
+          {hasMultiple ? 'Holidays on this date' : 'Public holiday'}
         </span>
-      ) : null}
+        <ul className="month-grid__holiday-popup-list">
+          {labels.map((label, index) => (
+            <li key={`${label}-${index}`}>{label}</li>
+          ))}
+        </ul>
+      </span>
     </button>
   )
 }

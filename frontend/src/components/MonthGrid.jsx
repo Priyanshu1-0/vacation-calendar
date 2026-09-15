@@ -18,7 +18,7 @@ function shadeForRow(row, shadeByDate) {
   for (const cell of row) {
     if (cell.kind !== 'day') continue
     const shade = shadeByDate.get(cell.date)
-    if (shade === 'dark') return 'light'
+    if (shade === 'dark') return 'dark'
   }
   for (const cell of row) {
     if (cell.kind !== 'day') continue
